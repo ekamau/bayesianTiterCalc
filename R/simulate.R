@@ -1,5 +1,3 @@
-library(tidyverse)
-
 simulate_cell_survival <- function(dilution, phi, a, b, nreplicates=2) {
   concentration <- phi / dilution
   probability <- logistic(concentration, a, b)
