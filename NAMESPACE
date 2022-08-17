@@ -2,7 +2,13 @@
 
 export(logistic)
 export(non_monotonic)
+export(sample_dose_response)
 export(simulate_cell_survival)
 export(simulate_dose_response)
+importFrom(dplyr,"%>%")
+importFrom(dplyr,bind_rows)
+importFrom(dplyr,if_else)
+importFrom(dplyr,mutate)
 importFrom(stats,rbinom)
+importFrom(stats,runif)
 importFrom(tidyr,tibble)

@@ -11,6 +11,10 @@
 #' @return A dataframe of simulated data
 #' @export
 #'
+#' @importFrom tidyr tibble
+#' @importFrom stats runif
+#' @importFrom dplyr if_else mutate %>% bind_rows
+#'
 #' @examples
 #' phi_Vals <- c(); ndraws = 30; a = 8.5; b = 2.5; prior_phi <- list(n=0.75, m=16);
 #' dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10)
