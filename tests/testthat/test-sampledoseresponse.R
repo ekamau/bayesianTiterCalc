@@ -1,0 +1,11 @@
+test_that("sample dose response function works", {
+  phi_Vals <- c(); ndraws = 2; a = 8.5; b = 2.5; prior_phi <- list(n=0.75, m=16);
+  dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10);
+
+  expect_equal(sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution=2, phi_Vals),
+               tidyr::as_tibble(data.frame(dilution = dilutions,
+                                           number_surviving = rep(2,length(dilutions)),
+                                           number_replicates = rep(2,length(dilutions)),
+                                           draw = c(rep(1,8), rep(2,8))))
+               )
+})
