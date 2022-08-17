@@ -7,7 +7,7 @@
 simulate_cell_survival(dilution, phi, a, b, nreplicates = 2)
 }
 \arguments{
-\item{dilution}{Numeric value {8, 16, 32, 64, 128, 256, 512, 1024}.}
+\item{dilution}{Numeric value of {8, 16, 32, 64, 128, 256, 512, 1024}.}
 
 \item{phi}{Model estimate.}
 

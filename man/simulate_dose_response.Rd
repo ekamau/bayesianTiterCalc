@@ -7,6 +7,8 @@
 simulate_dose_response(dilutions, phi, a, b, nreplicates = 2)
 }
 \arguments{
+\item{dilutions}{Numeric vector {8, 16, 32, 64, 128, 256, 512, 1024}.}
+
 \item{phi}{Model estimate.}
 
 \item{a}{Model estimate.}
@@ -14,8 +16,6 @@ simulate_dose_response(dilutions, phi, a, b, nreplicates = 2)
 \item{b}{Model estimate.}
 
 \item{nreplicates}{Fixed value of 2.}
-
-\item{dilution}{Numeric value {8, 16, 32, 64, 128, 256, 512, 1024}.}
 }
 \value{
 A numeric vector of length 8
@@ -24,8 +24,9 @@ A numeric vector of length 8
 simulation function
 }
 \examples{
-dilution = 16; phi = 42; a = 4; b = 1.2; nreplicates = 2
+dilutions <- vector()
+for(i in 3:10){j <- 2^i; dilutions <- c(dilutions, j)}; phi = 42; a = 4; b = 1.2; nreplicates = 2
 
-simulate_dose_response(dilution, phi, a, b, nreplicates)
+simulate_dose_response(dilutions, phi, a, b, nreplicates)
 
 }

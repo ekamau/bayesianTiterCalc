@@ -1,6 +1,6 @@
 #' simulation functions
 #'
-#' @param dilution Numeric value {8, 16, 32, 64, 128, 256, 512, 1024}.
+#' @param dilution Numeric value of {8, 16, 32, 64, 128, 256, 512, 1024}.
 #' @param phi Model estimate.
 #' @param a Model estimate.
 #' @param b Model estimate.
