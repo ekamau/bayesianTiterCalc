@@ -2,5 +2,6 @@
 
 export(logistic)
 export(simulate_cell_survival)
+export(simulate_dose_response)
 importFrom(stats,rbinom)
 importFrom(tidyr,tibble)
