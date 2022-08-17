@@ -1,3 +1,4 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+test_that("logistic() works", {
+  a = 4; b = 0.3; concentration = 12.6;
+  expect_equal(logistic(concentration, a, b), 0.9995822)
 })
