@@ -18,8 +18,8 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-Serum neutralizing antibody titer is approximated as the highest serum dilution that prevents virus infection of 50% of replicate inoculations. bayesianTiterCalc is a Bayesian inference method that calculates a serum sample's antibody concentration and titer based on data from a standard neutralization assay. The method uses a logistic function in a statistical model to simulate mortality in cell culture as a function of antibody concentration and was used with data on virus infection challenge reported in Reed-Muench's seminal paper in 1938 [1] as a proof of concept. The method could reasonably fits the Reed-Muench's titration data at each serum dilution and reliably estimates the endpoint protective antibody titer (dilution which prevents infection of 50% inoculated animals).
-Given the limited information per sample that's inherent in the experimental design of neutralization assays (number of replicates per dilution and number of dilutions), the advantage of the Bayesian inference method is that it incorporates uncertainty in the outcome. 
+bayesianTiterCalc is a Bayesian inference method that calculates a serum sample's antibody concentration and titer based on data from a standard neutralization assay. The method uses a logistic function in a statistical model to simulate mortality in cell culture as a function of antibody concentration. Given the limited information per sample that's inherent in the experimental design of neutralization assays (number of replicates per dilution and number of dilutions), the advantage of Bayesian inference here is the use of probability distributions to incorporate uncertainty in the outcome. 
+
 
 ## Installation
 
