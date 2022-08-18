@@ -64,31 +64,10 @@ The function *sample_dose_response* samples from a uniform distribution
 and calls the *simulate_dose_respose* function.
 
 Plot four simulated samples to see how they look like and if they
-resemble your actual data:
+resemble the actual data:
 
 ``` r
-library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
-library(ggplot2)
-
-simData %>%
-  filter(draw %in% 1:4) %>%
-  group_by(draw, dilution) %>%
-  summarise(outcome=number_surviving) %>%
-  ggplot(aes(x=dilution, y=outcome)) +
-    geom_point() +
-    scale_x_log10() +
-    ylim(0, 2) +
-    facet_wrap(~draw)
-#> `summarise()` has grouped output by 'draw'. You can override using the
-#> `.groups` argument.
+simData.plot(simData, 4)
 ```
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
