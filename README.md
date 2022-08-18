@@ -98,8 +98,7 @@ summarise(is_non_monotone=non_monotonic(number_surviving))
 
 table(non_monotone$is_non_monotone)
 
-save(dose_responses, file =
-“data/processed/simulations/nonMonotone_simultns.RData”)
+options(repr.plot.width=15, repr.plot.height=8)
 
 What is special about using `README.Rmd` instead of just `README.md`?
 You can include R chunks like so:

@@ -3,6 +3,7 @@
 export(logistic)
 export(non_monotonic)
 export(sample_dose_response)
+export(simData.plot)
 export(simulate_cell_survival)
 export(simulate_dose_response)
 importFrom(dplyr,"%>%")

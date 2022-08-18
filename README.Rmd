@@ -78,8 +78,7 @@ non_monotone <- dose_responses %>%
 
 table(non_monotone$is_non_monotone)
 
-save(dose_responses, file = "data/processed/simulations/nonMonotone_simultns.RData")
-
+options(repr.plot.width=15, repr.plot.height=8)
 ```
 
 ```
