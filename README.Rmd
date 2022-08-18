@@ -37,11 +37,51 @@ The most common output of a serum neutralization assay is the calculation of end
 (1) How to calculate endpoint antibody titer and concentration
 (2) How to simulate data
 (3) what other output do we need?
-This is a basic example which shows you how to solve a common problem:
+
+Example of data simulation: 30 serum samples with two replicates per dilution point.
 
 ```{r example}
 library(bayesianTiterCalc)
-## basic example code
+phi_Vals <- c(); ndraws = 30; a = 8.5; b = 2.5; 
+prior_phi <- list(n=0.75, m=16)
+dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10)
+
+simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution=2, phi_Vals)
+head(simData)
+table(simData$number_surviving)
+
+```
+
+The function *sample_dose_response* samples from a uniform distribution $\{a, b\}$ and calls the *simulate_dose_respose* function.
+
+Plot four simulated samples to see how they look like and if they resemble your actual data:
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+simData %>%
+  filter(draw %in% 1:4) %>%
+  group_by(draw, dilution) %>%
+  summarise(outcome=number_surviving) %>%
+  ggplot(aes(x=dilution, y=outcome)) +
+    geom_point() +
+    scale_x_log10() +
+    ylim(0, 2) +
+    facet_wrap(~draw)
+
+```
+
+non_monotone <- dose_responses %>% 
+  group_by(draw) %>% 
+  summarise(is_non_monotone=non_monotonic(number_surviving))
+
+table(non_monotone$is_non_monotone)
+
+save(dose_responses, file = "data/processed/simulations/nonMonotone_simultns.RData")
+
+```
+
 ```
 
 What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:

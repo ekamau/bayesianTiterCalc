@@ -31,13 +31,75 @@ devtools::install_github("ekamau/bayesianTiterCalc")
 What to do with the package The most common output of a serum
 neutralization assay is the calculation of endpoint antibody titer. For
 this, (1) How to calculate endpoint antibody titer and concentration (2)
-How to simulate data (3) what other output do we need? This is a basic
-example which shows you how to solve a common problem:
+How to simulate data (3) what other output do we need?
+
+Example of data simulation: 30 serum samples with two replicates per
+dilution point.
 
 ``` r
 library(bayesianTiterCalc)
-## basic example code
+phi_Vals <- c(); ndraws = 30; a = 8.5; b = 2.5; 
+prior_phi <- list(n=0.75, m=16)
+dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10)
+
+simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution=2, phi_Vals)
+head(simData)
+#> # A tibble: 6 × 4
+#>   dilution number_surviving number_replicates  draw
+#>      <dbl>            <int>             <dbl> <int>
+#> 1        8                2                 2     1
+#> 2       16                2                 2     1
+#> 3       32                2                 2     1
+#> 4       64                2                 2     1
+#> 5      128                2                 2     1
+#> 6      256                2                 2     1
+table(simData$number_surviving)
+#> 
+#>   2 
+#> 240
 ```
+
+The function *sample_dose_response* samples from a uniform distribution
+![\\{a, b\\}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5C%7Ba%2C%20b%5C%7D "\{a, b\}")
+and calls the *simulate_dose_respose* function.
+
+Plot four simulated samples to see how they look like and if they
+resemble your actual data:
+
+``` r
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+library(ggplot2)
+
+simData %>%
+  filter(draw %in% 1:4) %>%
+  group_by(draw, dilution) %>%
+  summarise(outcome=number_surviving) %>%
+  ggplot(aes(x=dilution, y=outcome)) +
+    geom_point() +
+    scale_x_log10() +
+    ylim(0, 2) +
+    facet_wrap(~draw)
+#> `summarise()` has grouped output by 'draw'. You can override using the
+#> `.groups` argument.
+```
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+
+non_monotone \<- dose_responses %\>% group_by(draw) %\>%
+summarise(is_non_monotone=non_monotonic(number_surviving))
+
+table(non_monotone$is_non_monotone)
+
+save(dose_responses, file =
+“data/processed/simulations/nonMonotone_simultns.RData”)
 
 What is special about using `README.Rmd` instead of just `README.md`?
 You can include R chunks like so:
