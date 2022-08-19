@@ -62,21 +62,35 @@ simData.plot(simData, 4)
 
 ```
 
-Check if data is non monotonic, i.e., mortality of cell cultures increases with higher serum dilutions. Non-monotonic data would show 'accidental' death or survival of cell cultures in between dilution levels.
+Check if data is non monotonic, i.e., mortality of cell cultures increases with higher serum dilutions. Non-monotonic data would show 'accidental' death or survival of cell cultures in between dilution levels. In the *table* output, '0' and '1' represents monotonic and non-monotonic data points, respectively.
 
 ```{r }
 non_monotone <- check_monotone(simData)
 table(non_monotone$is_non_monotone)
 ```
 
-```
+Prepare data for analysis with Stan:
+
+``` {r }
+stan_data <- list(
+  N = nrow(simData),
+  nreplicates = rep(2, nrow(simData)),
+  survival = simData$number_surviving,
+  dilution = simData$dilution,
+  nsample = max(simData$draw),
+  sample = simData$draw,
+  is_log = 1
+)
 
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+Call Stan:
 
-```{r cars}
-summary(cars)
+``` {r }
+library(rstan)
+options(mc.cores = parallel::detectCores())
+rstan_options(auto_write = TRUE, javascript=FALSE)
+
 ```
 
 You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/v1/examples>.

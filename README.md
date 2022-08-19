@@ -75,7 +75,8 @@ simData.plot(simData, 4)
 Check if data is non monotonic, i.e., mortality of cell cultures
 increases with higher serum dilutions. Non-monotonic data would show
 ‘accidental’ death or survival of cell cultures in between dilution
-levels.
+levels. In the *table* output, ‘0’ and ‘1’ represents monotonic and
+non-monotonic data points, respectively.
 
 ``` r
 non_monotone <- check_monotone(simData)
@@ -85,18 +86,33 @@ table(non_monotone$is_non_monotone)
 #> 30
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+Prepare data for analysis with Stan:
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+stan_data <- list(
+  N = nrow(simData),
+  nreplicates = rep(2, nrow(simData)),
+  survival = simData$number_surviving,
+  dilution = simData$dilution,
+  nsample = max(simData$draw),
+  sample = simData$draw,
+  is_log = 1
+)
+```
+
+Call Stan:
+
+``` r
+library(rstan)
+#> Loading required package: StanHeaders
+#> Loading required package: ggplot2
+#> rstan (Version 2.21.5, GitRev: 2e1f913d3ca3)
+#> For execution on a local, multicore CPU with excess RAM we recommend calling
+#> options(mc.cores = parallel::detectCores()).
+#> To avoid recompilation of unchanged Stan programs, we recommend calling
+#> rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+rstan_options(auto_write = TRUE, javascript=FALSE)
 ```
 
 You’ll still need to render `README.Rmd` regularly, to keep `README.md`
