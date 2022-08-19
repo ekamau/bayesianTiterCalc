@@ -27,5 +27,5 @@ simData.plot <- function(simData, n) {
     geom_point() +
     scale_x_log10() +
     ylim(0, 2) +
-    facet_wrap(~.data$draw)
+    facet_wrap(~ .data$draw)
 }

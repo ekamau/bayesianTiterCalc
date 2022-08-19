@@ -61,8 +61,7 @@ table(simData$number_surviving)
 ```
 
 The function *sample_dose_response* samples from a uniform distribution
-![\\{a, b\\}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5C%7Ba%2C%20b%5C%7D "\{a, b\}")
-and calls the *simulate_dose_respose* function.
+{a, b} and calls the *simulate_dose_response* function.
 
 Plot four simulated samples to see how they look like and if they
 resemble the actual data:
@@ -73,12 +72,18 @@ simData.plot(simData, 4)
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
-non_monotone \<- dose_responses %\>% group_by(draw) %\>%
-summarise(is_non_monotone=non_monotonic(number_surviving))
+Check if data is non monotonic, i.e., mortality of cell cultures
+increases with higher serum dilutions. Non-monotonic data would show
+‘accidental’ death or survival of cell cultures in between dilution
+levels.
 
+``` r
+non_monotone <- check_monotone(simData)
 table(non_monotone$is_non_monotone)
-
-options(repr.plot.width=15, repr.plot.height=8)
+#> 
+#>  0 
+#> 30
+```
 
 What is special about using `README.Rmd` instead of just `README.md`?
 You can include R chunks like so:
