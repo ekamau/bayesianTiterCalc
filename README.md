@@ -72,9 +72,9 @@ simData.plot(simData, 4)
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
-Check if data is non monotonic, i.e., mortality of cell cultures
-increases with higher serum dilutions. Non-monotonic data would show
-‘accidental’ death or survival of cell cultures in between dilution
+Check if simulated data is non monotonic, i.e., mortality of cell
+cultures increases with higher serum dilutions. Non-monotonic data would
+show ‘accidental’ death or survival of cell cultures in between dilution
 levels. In the *table* output, ‘0’ and ‘1’ represents monotonic and
 non-monotonic data points, respectively.
 
@@ -113,6 +113,9 @@ library(rstan)
 #> rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE, javascript=FALSE)
+
+iter = 100; chains = 1;
+#fit <- fitStanSimData(simData, iter, chains)
 ```
 
 You’ll still need to render `README.Rmd` regularly, to keep `README.md`
