@@ -1,6 +1,6 @@
 #' The 'bayesianTiterCalc' package.
 #'
-#' @description Bayesian calculation of serum antibody titers
+#' @description Bayesian calculation of serum neutralization titer.
 #'
 #' @docType package
 #' @name bayesianTiterCalc-package
