@@ -44,7 +44,6 @@ generated quantities{
 
   for(i in 1:N){
     real concentration;
-
     if(is_log == 1)
       concentration = log(phi[sample[i]] / dilution[i]);
     else
