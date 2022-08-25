@@ -48,6 +48,7 @@ generated quantities{
       concentration = log(phi[sample[i]] / dilution[i]);
     else
       concentration = phi[sample[i]] / dilution[i];
+
     prob[i] = logistic(a, b, concentration);
     survival_sim[i] = binomial_rng(nreplicates[i], prob[i]);
 

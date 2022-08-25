@@ -15,6 +15,7 @@
 #'   \item{dilutions}{serum dilution, per sample}
 #'   ...
 #' }
+#' @source Data generated using a method described in \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8386771/}
 #'
 "evTitrations"
 
@@ -30,5 +31,6 @@
 #'   \item{Survival}{Percentage of samples that survive at each dilution}
 #'   ...
 #' }
+#' @source A Simple Method of Estimating Fifty Per Cent Endpoints, The American Journal of Hygiene, 1938
 #'
 "reedmuenchTitrations"

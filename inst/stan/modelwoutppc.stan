@@ -16,9 +16,9 @@ data {
 }
 
 parameters {
-  real a;
-  real b;
-  vector<lower=0>[nsample] phi;
+  real<lower=0> a;
+  real<lower=0> b;
+  real<lower=0> phi[nsample];
 }
 
 model {

@@ -2,7 +2,7 @@
 #'
 #' @export
 #'
-#' @param inputdata A dataframe for constructing Stan input data
+#' @param standata A dataframe for constructing Stan input data
 #' @param ... Arguments passed to 'rstan::sampling' e.g., iter, chains
 #'
 #' @return An object of class 'stanfit'
@@ -11,11 +11,13 @@
 #' dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10)
 #' simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution=2)
 #'
-#' fit <- optimizing_stan(inputdata = simData, iter = 100, init = 'random')
+#' stan_data = list(N = nrow(simData), nreplicates = rep(2, nrow(simData)),
+#' survival = simData$number_surviving, dilution = simData$dilution, nsample = max(simData$draw), sample = simData$draw,
+#' is_log = 1)
 #'
-optimizing_stan <- function(inputdata, ...) {
-  standata = list(N = nrow(inputdata), nreplicates = rep(2, nrow(inputdata)), survival = inputdata$number_surviving,
-                  dilution = inputdata$dilution, nsample = max(inputdata$draw), sample = inputdata$draw, is_log = 1)
-  out <- rstan::optimizing(stanmodels$simulations, data = standata, ...)
-  return(out)
+#' fit <- sampling_stan(standata = stan_data, iter = 100, init = 'random')
+#'
+optimizing_stan <- function(standata, ...) {
+  rstan::optimizing(stanmodels$modelwithppc, data = standata, ...)
 }
+

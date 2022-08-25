@@ -14,7 +14,6 @@
 #' @examples
 #' dilutions <- vector()
 #' for(i in 3:10){j <- 2^i; dilutions <- c(dilutions, j)}; phi = 42; a = 4; b = 1.2; nreplicates = 2
-#'
 #' simulate_dose_response(dilutions, phi, a, b, nreplicates)
 #'
 simulate_dose_response <- function(dilutions, phi, a, b, nreplicates=2) {

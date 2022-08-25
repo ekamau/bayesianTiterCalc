@@ -68,16 +68,25 @@ Check if simulated data is non monotonic, i.e., mortality of cell cultures incre
 ```{r }
 non_monotone <- check_monotone(simData)
 table(non_monotone$is_non_monotone)
+
 ```
 
-Call the model fitting functions:
+Model fitting:
 
 ``` {r }
 
+stan_data = list(N = nrow(simData),
+                 nreplicates = rep(2, nrow(simData)),
+                 survival = simData$number_surviving,
+                 dilution = simData$dilution,
+                 nsample = max(simData$draw),
+                 sample = simData$draw,
+                 is_log = 1)
+
+
+fit <- sampling_stan(standata = stan_data, chains=4, iter = 1000, init = 'random')
+
 ```
-fit <- sampling_stan(inputdata = simData, iter = 1000, chains = 4)
-
-
 Summarize the model fitted data:
 
 
