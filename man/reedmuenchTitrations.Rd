@@ -10,7 +10,7 @@ A data frame with 9 rows and 4 variables
 \item{dilution}{serum dilution}
 \item{Alive}{Number of animals surviving}
 \item{Dead}{Number of animals dead}
-\item{Survival}{Percentage of samples that survive at each dilution}
+\item{Survival}{Percentage surviving at each dilution}
 ...
 }
 }
