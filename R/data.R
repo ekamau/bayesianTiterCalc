@@ -15,6 +15,7 @@
 #'   \item{dilutions}{serum dilution, per sample}
 #'   ...
 #' }
+#'
 #' @source Data generated using a method described in \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8386771/}
 #'
 "evTitrations"
@@ -28,7 +29,7 @@
 #'   \item{dilution}{serum dilution}
 #'   \item{Alive}{Number of animals surviving}
 #'   \item{Dead}{Number of animals dead}
-#'   \item{Survival}{Percentage of samples that survive at each dilution}
+#'   \item{Survival}{Percentage surviving at each dilution}
 #'   ...
 #' }
 #' @source A Simple Method of Estimating Fifty Per Cent Endpoints, The American Journal of Hygiene, 1938
