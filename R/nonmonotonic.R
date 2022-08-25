@@ -5,6 +5,10 @@
 #' @return A boolean '1' if non-monotonic and '0' if monotonic
 #' @export
 #'
+#' @importFrom dplyr if_else mutate %>% bind_rows filter group_by summarise
+#' @importFrom utils globalVariables
+#' @importFrom rlang .data
+#'
 #' @examples
 #' x <- c(2,2,2,2,2,0,0,0)
 #' non_monotonic(x)

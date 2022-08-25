@@ -425,12 +425,12 @@ public:
                 (void) concentration;  // dummy to suppress unused var warning
                 stan::math::initialize(concentration, DUMMY_VAR__);
                 stan::math::fill(concentration, DUMMY_VAR__);
-                current_statement_begin__ = 48;
+                current_statement_begin__ = 47;
                 if (as_bool(logical_eq(is_log, 1))) {
-                    current_statement_begin__ = 49;
+                    current_statement_begin__ = 48;
                     stan::math::assign(concentration, stan::math::log((get_base1(phi, get_base1(sample, i, "sample", 1), "phi", 1) / get_base1(dilution, i, "dilution", 1))));
                 } else {
-                    current_statement_begin__ = 51;
+                    current_statement_begin__ = 50;
                     stan::math::assign(concentration, (get_base1(phi, get_base1(sample, i, "sample", 1), "phi", 1) / get_base1(dilution, i, "dilution", 1)));
                 }
                 current_statement_begin__ = 52;

@@ -18,6 +18,9 @@ A data frame with 80 rows and 9 variables
 ...
 }
 }
+\source{
+Data generated using a method described in \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8386771/}
+}
 \usage{
 evTitrations
 }

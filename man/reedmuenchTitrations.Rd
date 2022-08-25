@@ -14,6 +14,9 @@ A data frame with 9 rows and 4 variables
 ...
 }
 }
+\source{
+A Simple Method of Estimating Fifty Per Cent Endpoints, The American Journal of Hygiene, 1938
+}
 \usage{
 reedmuenchTitrations
 }
