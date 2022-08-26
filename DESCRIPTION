@@ -21,6 +21,8 @@ Imports:
     tidyr,
     utils
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 URL: https://github.com/ekamau/bayesianTiterCalc
@@ -37,3 +39,4 @@ LinkingTo:
     StanHeaders (>= 2.18.0)
 SystemRequirements: GNU make
 LazyData: true
+VignetteBuilder: knitr

@@ -33,7 +33,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_modelwithppc");
-    reader.add_event(59, 57, "end", "model_modelwithppc");
+    reader.add_event(64, 62, "end", "model_modelwithppc");
     return reader;
 }
 template <typename T0__, typename T1__, typename T2__>
@@ -350,6 +350,7 @@ public:
         names__.push_back("phi");
         names__.push_back("survival_sim");
         names__.push_back("prob");
+        names__.push_back("ed50");
     }
     void get_dims(std::vector<std::vector<size_t> >& dimss__) const {
         dimss__.resize(0);
@@ -366,6 +367,9 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nsample);
         dimss__.push_back(dims__);
     }
     template <typename RNG>
@@ -416,34 +420,47 @@ public:
             Eigen::Matrix<double, Eigen::Dynamic, 1> prob(N);
             stan::math::initialize(prob, DUMMY_VAR__);
             stan::math::fill(prob, DUMMY_VAR__);
+            current_statement_begin__ = 44;
+            validate_non_negative_index("ed50", "nsample", nsample);
+            std::vector<double> ed50(nsample, double(0));
+            stan::math::initialize(ed50, DUMMY_VAR__);
+            stan::math::fill(ed50, DUMMY_VAR__);
             // generated quantities statements
-            current_statement_begin__ = 45;
+            current_statement_begin__ = 46;
             for (int i = 1; i <= N; ++i) {
                 {
-                current_statement_begin__ = 46;
+                current_statement_begin__ = 47;
                 local_scalar_t__ concentration(DUMMY_VAR__);
                 (void) concentration;  // dummy to suppress unused var warning
                 stan::math::initialize(concentration, DUMMY_VAR__);
                 stan::math::fill(concentration, DUMMY_VAR__);
-                current_statement_begin__ = 47;
+                current_statement_begin__ = 48;
                 if (as_bool(logical_eq(is_log, 1))) {
-                    current_statement_begin__ = 48;
+                    current_statement_begin__ = 49;
                     stan::math::assign(concentration, stan::math::log((get_base1(phi, get_base1(sample, i, "sample", 1), "phi", 1) / get_base1(dilution, i, "dilution", 1))));
                 } else {
-                    current_statement_begin__ = 50;
+                    current_statement_begin__ = 51;
                     stan::math::assign(concentration, (get_base1(phi, get_base1(sample, i, "sample", 1), "phi", 1) / get_base1(dilution, i, "dilution", 1)));
                 }
-                current_statement_begin__ = 52;
+                current_statement_begin__ = 53;
                 stan::model::assign(prob, 
                             stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
                             logistic(a, b, concentration, pstream__), 
                             "assigning variable prob");
-                current_statement_begin__ = 53;
+                current_statement_begin__ = 54;
                 stan::model::assign(survival_sim, 
                             stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
                             binomial_rng(get_base1(nreplicates, i, "nreplicates", 1), get_base1(prob, i, "prob", 1), base_rng__), 
                             "assigning variable survival_sim");
                 }
+            }
+            current_statement_begin__ = 58;
+            for (int i = 1; i <= nsample; ++i) {
+                current_statement_begin__ = 59;
+                stan::model::assign(ed50, 
+                            stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
+                            (get_base1(phi, i, "phi", 1) * pow(stan::math::exp(-(a)), (-(1.0) / b))), 
+                            "assigning variable ed50");
             }
             // validate, write generated quantities
             current_statement_begin__ = 42;
@@ -455,6 +472,15 @@ public:
             size_t prob_j_1_max__ = N;
             for (size_t j_1__ = 0; j_1__ < prob_j_1_max__; ++j_1__) {
                 vars__.push_back(prob(j_1__));
+            }
+            current_statement_begin__ = 44;
+            size_t ed50_i_0_max__ = nsample;
+            for (size_t i_0__ = 0; i_0__ < ed50_i_0_max__; ++i_0__) {
+                check_greater_or_equal(function__, "ed50[i_0__]", ed50[i_0__], 0);
+            }
+            size_t ed50_k_0_max__ = nsample;
+            for (size_t k_0__ = 0; k_0__ < ed50_k_0_max__; ++k_0__) {
+                vars__.push_back(ed50[k_0__]);
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -514,6 +540,12 @@ public:
             param_name_stream__ << "prob" << '.' << j_1__ + 1;
             param_names__.push_back(param_name_stream__.str());
         }
+        size_t ed50_k_0_max__ = nsample;
+        for (size_t k_0__ = 0; k_0__ < ed50_k_0_max__; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "ed50" << '.' << k_0__ + 1;
+            param_names__.push_back(param_name_stream__.str());
+        }
     }
     void unconstrained_param_names(std::vector<std::string>& param_names__,
                                    bool include_tparams__ = true,
@@ -545,6 +577,12 @@ public:
         for (size_t j_1__ = 0; j_1__ < prob_j_1_max__; ++j_1__) {
             param_name_stream__.str(std::string());
             param_name_stream__ << "prob" << '.' << j_1__ + 1;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        size_t ed50_k_0_max__ = nsample;
+        for (size_t k_0__ = 0; k_0__ < ed50_k_0_max__; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "ed50" << '.' << k_0__ + 1;
             param_names__.push_back(param_name_stream__.str());
         }
     }
