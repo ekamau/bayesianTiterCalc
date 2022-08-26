@@ -258,8 +258,6 @@ Note - ED50 is a model generated quantity of the endpoint dilution at 50\% morta
 $$ed50 = \phi * \exp(-a) ^ {-1 / b}$$
 
 ```{r, out.width='60%', out.height='40%', warning=FALSE, dpi=300}
-#fit_Summary <- data.frame(summary(fit)$summary)
-#tail(fit_Summary)
 phiEstimated <- apply(rstan::extract(fit, "phi")[[1]], 2, mean)
 ed50Estimated <- apply(rstan::extract(fit, "ed50")[[1]], 2, mean)
 phis_ed50_titers <- df
