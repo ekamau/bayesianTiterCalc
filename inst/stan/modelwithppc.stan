@@ -41,6 +41,7 @@ model {
 generated quantities{
   vector[N] survival_sim;
   vector[N] prob;
+  real<lower=0> ed50[nsample];
 
   for(i in 1:N){
     real concentration;
@@ -52,6 +53,10 @@ generated quantities{
     prob[i] = logistic(a, b, concentration);
     survival_sim[i] = binomial_rng(nreplicates[i], prob[i]);
 
+  }
+
+  for(i in 1:nsample){
+    ed50[i] = phi[i] * exp(-a)^(-1.0 / b);
   }
 
 }
