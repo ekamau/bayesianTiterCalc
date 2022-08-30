@@ -200,9 +200,6 @@ mcmc_pairs(fit, pars = c("phi", "a", "b"), off_diag_fun = "hex")
 In the following example we show the use of the package with actual serum neutralization data. The data is similar to the simulated data above, i.e., 2-fold serum dilutions of 1:8 to 1:1024, where each dilution was tested in duplicate.
 
 ```{r, message=FALSE, warning=FALSE}
-library(dplyr)
-library(tidyverse)
-
 delayedAssign('df', evTitrations)
 head(df)
 df <- df %>% mutate(sample=as.numeric(as.factor(sampleID)))
@@ -219,7 +216,6 @@ table(non_monotone$is_non_monotone)
 Visualise the data to show the number or proportion of replicates that have surviving cells (Y axis) per dilution::
 
 ```{r, out.width='80%', out.height='60%', warning=FALSE, dpi=300}
-library(ggplot2)
 
 df %>%
   filter(sample %in% 1:4) %>%
