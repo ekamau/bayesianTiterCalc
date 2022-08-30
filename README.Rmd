@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 # bayesianTiterCalc
 
 <!-- badges: start -->
+[![R-CMD-check.yaml](https://github.com/ekamau/bayesianTiterCalc/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ekamau/bayesianTiterCalc/actions)
+[![R-CMD-check](https://github.com/ekamau/bayesianTiterCalc/workflows/R-CMD-check/badge.svg)](https://github.com/ekamau/bayesianTiterCalc/actions)
 <!-- badges: end -->
 
 bayesianTiterCalc is a Bayesian inference method that calculates a serum sample's antibody concentration and titer based on data from a standard neutralization assay. The method uses a logistic function in a statistical model to simulate mortality in cell culture as a function of antibody concentration. Given the limited information per sample that's inherent in the experimental design of neutralization assays (number of replicates per dilution and number of dilutions), the advantage of Bayesian inference here is the use of probability distributions to incorporate uncertainty in the outcome. 
