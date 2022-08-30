@@ -42,14 +42,13 @@ head(simData)
 Check if the simulated data is non monotonic using the *non_monotonic* function. It is expected that mortality of cell cultures increases with higher serum dilutions. Non-monotonic data would show 'accidental' death or survival of cell cultures in between dilution levels, i.e., unexpected cell death in low dilutions or survival in high dilutions. 
 
 ```{r, message=FALSE, warning=FALSE}
-library(tidyverse)
+library(dplyr)
 
 non_monotone <- simData %>%
   group_by(simData$draw) %>%
   summarise(is_non_monotone = non_monotonic(simData$number_surviving))
 
 table(non_monotone$is_non_monotone)
-
 ```
 
 In the *table* output above, '0' and '1' represents monotonic and non-monotonic data points, respectively.
@@ -120,9 +119,6 @@ prob_high <- apply(rstan::extract(fit, "prob")[[1]], 2, function(x) quantile(x, 
 ## Reed and Muench serum titration data
 
 ```{r, message=FALSE, warning=FALSE}
-library(bayesianTiterCalc)
-library(tidyverse)
-
 delayedAssign('df', reedmuenchTitrations)
 head(df)
 df <- df %>%
