@@ -23,16 +23,6 @@ knitr::opts_chunk$set(
 
 bayesianTiterCalc is a Bayesian inference method that calculates a serum sample's antibody concentration and titer based on data from a standard neutralization assay. The method uses a logistic function in a statistical model to simulate mortality in cell culture as a function of antibody concentration. Given the limited information per sample that's inherent in the experimental design of neutralization assays (number of replicates per dilution and number of dilutions), the advantage of Bayesian inference here is the use of probability distributions to incorporate uncertainty in the outcome.
 
-
-## Installation
-
-You can install the development version of bayesianTiterCalc from [GitHub](https://github.com/) with:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("ekamau/bayesianTiterCalc")
-```
-
 ## Usage
 
 Example of data simulation: 30 serum samples with two replicates per dilution point.
@@ -44,7 +34,6 @@ dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10)
 simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution=2)
 head(simData)
 table(simData$number_surviving)
-
 ```
 
 The function *'sample_dose_response'* samples from a uniform distribution \{a, b\} and calls the *'simulate_dose_response'* function.
