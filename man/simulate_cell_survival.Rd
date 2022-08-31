@@ -4,7 +4,7 @@
 \alias{simulate_cell_survival}
 \title{simulation functions}
 \usage{
-simulate_cell_survival(dilution, phi, a, b, nreplicates = 2)
+simulate_cell_survival(dilution, phi, a, b, nreplicates)
 }
 \arguments{
 \item{dilution}{Numeric value of {8, 16, 32, 64, 128, 256, 512, 1024}.}

@@ -19,7 +19,11 @@ Imports:
     rstantools (>= 2.2.0),
     stats,
     tidyr,
-    utils
+    utils,
+    tidyverse,
+    bayesplot,
+    hexbin,
+    scales
 Suggests: 
     knitr,
     rmarkdown,
