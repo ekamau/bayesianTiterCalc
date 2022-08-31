@@ -25,6 +25,8 @@ Imports:
     hexbin,
     scales
 Suggests: 
+    bayesplot,
+    hexbin,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)

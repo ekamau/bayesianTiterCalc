@@ -4,6 +4,9 @@
 # bayesianTiterCalc
 
 <!-- badges: start -->
+[![R-CMD-check.yaml](https://github.com/ekamau/bayesianTiterCalc/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ekamau/bayesianTiterCalc/actions)
+[![R-CMD-check](https://github.com/ekamau/bayesianTiterCalc/workflows/R-CMD-check/badge.svg)](https://github.com/ekamau/bayesianTiterCalc/actions)
+[![codecov](https://codecov.io/gh/ekamau/bayesianTiterCalc/branch/master/graph/badge.svg?token=61D5K98II1)](https://codecov.io/gh/ekamau/bayesianTiterCalc)
 <!-- badges: end -->
 
 bayesianTiterCalc is a Bayesian inference method that calculates a serum
