@@ -14,7 +14,7 @@
 #' dilution = 16; phi = 42; a = 4; b = 1.2; nreplicates = 2
 #' simulate_cell_survival(dilution, phi, a, b, nreplicates)
 #'
-simulate_cell_survival <- function(dilution, phi, a, b, nreplicates=2) {
+simulate_cell_survival <- function(dilution, phi, a, b, nreplicates) {
   concentration <- phi / dilution
   probability <- logistic(concentration, a, b)
   rbinom(1, nreplicates, probability)
