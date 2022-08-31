@@ -15,12 +15,21 @@
 #' @importFrom dplyr if_else mutate %>% bind_rows
 #'
 #' @examples
+<<<<<<< HEAD
 #' ndraws = 30; a = 8.5; b = 2.5; prior_phi <- list(lower = 0.75, upper = 16);
 #' dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10); nreplicates_per_dilution = 2
+=======
+#' ndraws = 30; a = 8.5; b = 2.5; prior_phi <- list(lower=0.75, upper=16);
+#' dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10)
+>>>>>>> 56e38b656833ad7b39168f00a1c8eea377a05719
 #' simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions,
 #' nreplicates_per_dilution)
 #'
+<<<<<<< HEAD
 sample_dose_response <- function(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution) {
+=======
+sample_dose_response <- function(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution=2) {
+>>>>>>> 56e38b656833ad7b39168f00a1c8eea377a05719
   phis <- runif(ndraws, prior_phi$lower, prior_phi$upper)
   for(i in 1:ndraws) {
     phi <- phis[i]

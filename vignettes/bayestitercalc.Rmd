@@ -32,10 +32,16 @@ Using the *sample_dose_response* function, we simulate data for 30 serum samples
 Each dilution is in four replicates. In this example, it's assumed the $\phi$ values are drawn from a uniform distribution with a range (0.75 to 16) and can be described by a logistic function with a $a$ and $b$ values of 8.5 and 2.5. The data must be in long-format as shown with *'head'* below. 
 
 ```{r }
+<<<<<<< HEAD
 ndraws = 30; a = 4.5; b = 2.5; prior_phi <- list(lower = 1.75, upper = 16)
 dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10); nreplicates_per_dilution = 4
 simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, 
                                 nreplicates_per_dilution)
+=======
+ndraws = 30; a = 8.5; b = 2.5; prior_phi <- list(lower=0.75, upper=16)
+dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10)
+simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution=2)
+>>>>>>> 56e38b656833ad7b39168f00a1c8eea377a05719
 table(simData$number_surviving)
 head(simData)
 ```
@@ -50,7 +56,6 @@ non_monotone <- simData %>%
   summarise(is_non_monotone = non_monotonic(simData$number_surviving))
 
 table(non_monotone$is_non_monotone)
-
 ```
 
 In the *table* output above, '0' and '1' represents monotonic and non-monotonic data points, respectively.
@@ -121,9 +126,6 @@ prob_high <- apply(rstan::extract(fit, "prob")[[1]], 2, function(x) quantile(x, 
 ## Reed and Muench serum titration data
 
 ```{r, message=FALSE, warning=FALSE}
-library(bayesianTiterCalc)
-library(tidyverse)
-
 delayedAssign('df', reedmuenchTitrations)
 head(df)
 df <- df %>%
@@ -205,9 +207,6 @@ mcmc_pairs(fit, pars = c("phi", "a", "b"), off_diag_fun = "hex")
 In the following example we show the use of the package with actual serum neutralization data. The data is similar to the simulated data above, i.e., 2-fold serum dilutions of 1:8 to 1:1024, where each dilution was tested in duplicate.
 
 ```{r, message=FALSE, warning=FALSE}
-library(dplyr)
-library(tidyverse)
-
 delayedAssign('df', evTitrations)
 head(df)
 df <- df %>% mutate(sample=as.numeric(as.factor(sampleID)))
@@ -224,7 +223,6 @@ table(non_monotone$is_non_monotone)
 Visualise the data to show the number or proportion of replicates that have surviving cells (Y axis) per dilution::
 
 ```{r, out.width='80%', out.height='60%', warning=FALSE, dpi=300}
-library(ggplot2)
 
 df %>%
   filter(sample %in% 1:4) %>%
