@@ -35,3 +35,4 @@
 #' @source A Simple Method of Estimating Fifty Per Cent Endpoints, The American Journal of Hygiene, 1938
 #'
 "reedmuenchTitrations"
+

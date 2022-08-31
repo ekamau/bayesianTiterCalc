@@ -4,6 +4,7 @@
 # bayesianTiterCalc
 
 <!-- badges: start -->
+
 [![R-CMD-check.yaml](https://github.com/ekamau/bayesianTiterCalc/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ekamau/bayesianTiterCalc/actions)
 [![R-CMD-check](https://github.com/ekamau/bayesianTiterCalc/workflows/R-CMD-check/badge.svg)](https://github.com/ekamau/bayesianTiterCalc/actions)
 [![codecov](https://codecov.io/gh/ekamau/bayesianTiterCalc/branch/master/graph/badge.svg?token=61D5K98II1)](https://codecov.io/gh/ekamau/bayesianTiterCalc)
@@ -36,19 +37,19 @@ dilution point.
 
 ``` r
 library(bayesianTiterCalc)
-ndraws = 30; a = 8.5; b = 2.5; prior_phi <- list(n=0.75, m=16)
-dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10)
-simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution=2)
+ndraws = 30; a = 8.5; b = 2.5; prior_phi <- list(lower = 0.75, upper = 16)
+dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10); nreplicates_per_dilution = 2
+simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution)
 head(simData)
 #> # A tibble: 6 × 5
 #>   dilution number_surviving number_replicates  draw phiValue
 #>      <dbl>            <int>             <dbl> <int>    <dbl>
-#> 1        8                2                 2     1     6.14
-#> 2       16                2                 2     1     6.14
-#> 3       32                2                 2     1     6.14
-#> 4       64                2                 2     1     6.14
-#> 5      128                2                 2     1     6.14
-#> 6      256                2                 2     1     6.14
+#> 1        8                2                 2     1     13.0
+#> 2       16                2                 2     1     13.0
+#> 3       32                2                 2     1     13.0
+#> 4       64                2                 2     1     13.0
+#> 5      128                2                 2     1     13.0
+#> 6      256                2                 2     1     13.0
 table(simData$number_surviving)
 #> 
 #>   2 
@@ -98,7 +99,7 @@ Model fitting:
 
 ``` r
 stan_data = list(N = nrow(simData),
-                 nreplicates = rep(2, nrow(simData)),
+                 nreplicates = rep(nreplicates_per_dilution, nrow(simData)),
                  survival = simData$number_surviving,
                  dilution = simData$dilution,
                  nsample = max(simData$draw),

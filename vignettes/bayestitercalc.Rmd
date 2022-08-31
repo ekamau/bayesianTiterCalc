@@ -32,16 +32,10 @@ Using the *sample_dose_response* function, we simulate data for 30 serum samples
 Each dilution is in four replicates. In this example, it's assumed the $\phi$ values are drawn from a uniform distribution with a range (0.75 to 16) and can be described by a logistic function with a $a$ and $b$ values of 8.5 and 2.5. The data must be in long-format as shown with *'head'* below. 
 
 ```{r }
-<<<<<<< HEAD
 ndraws = 30; a = 4.5; b = 2.5; prior_phi <- list(lower = 1.75, upper = 16)
 dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10); nreplicates_per_dilution = 4
 simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, 
                                 nreplicates_per_dilution)
-=======
-ndraws = 30; a = 8.5; b = 2.5; prior_phi <- list(lower=0.75, upper=16)
-dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10)
-simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution=2)
->>>>>>> 56e38b656833ad7b39168f00a1c8eea377a05719
 table(simData$number_surviving)
 head(simData)
 ```

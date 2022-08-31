@@ -8,8 +8,7 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+  fig.path = "man/figures/README-"
 )
 ```
 
@@ -39,11 +38,12 @@ Example of data simulation: 30 serum samples with two replicates per dilution po
 
 ```{r example}
 library(bayesianTiterCalc)
-ndraws = 30; a = 8.5; b = 2.5; prior_phi <- list(lower=0.75, upper=16)
-dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10)
-simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution=2)
+ndraws = 30; a = 8.5; b = 2.5; prior_phi <- list(lower = 0.75, upper = 16)
+dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10); nreplicates_per_dilution = 2
+simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution)
 head(simData)
 table(simData$number_surviving)
+
 ```
 
 The function *'sample_dose_response'* samples from a uniform distribution \{a, b\} and calls the *'simulate_dose_response'* function.
@@ -80,7 +80,7 @@ Model fitting:
 
 ```{r, warning = FALSE, results = 'hide'}
 stan_data = list(N = nrow(simData),
-                 nreplicates = rep(2, nrow(simData)),
+                 nreplicates = rep(nreplicates_per_dilution, nrow(simData)),
                  survival = simData$number_surviving,
                  dilution = simData$dilution,
                  nsample = max(simData$draw),
