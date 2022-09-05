@@ -10,3 +10,4 @@ src/*.h
 src/*.cpp
 src/*.cc
 src/Makevars*
+docs
