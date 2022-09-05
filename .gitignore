@@ -5,3 +5,8 @@
 .DS_Store
 inst/doc
 src/bayesianTiterCalc.so
+src/*.o
+src/*.h
+src/*.cpp
+src/*.cc
+src/Makevars*
