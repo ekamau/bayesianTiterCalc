@@ -10,7 +10,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+<style>
+body {
+text-align: justify}
+</style>
+
+```{r, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
@@ -31,18 +36,16 @@ library(bayesianTiterCalc)
 Using the *sample_dose_response* function, we simulate data for 30 serum samples where each sample is diluted 2-fold in eight dilutions from 1:8 to 1:1024. 
 Each dilution is in four replicates. In this example, it's assumed the $\phi$ values are drawn from a uniform distribution with a range (0.75 to 16) and can be described by a logistic function with a $a$ and $b$ values of 8.5 and 2.5. The data must be in long-format as shown with *'head'* below. 
 
-```{r }
+```{r, results='hide'}
 ndraws = 30; a = 4.5; b = 2.5; prior_phi <- list(lower = 1.75, upper = 16)
 dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10); nreplicates_per_dilution = 4
-simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, 
-                                nreplicates_per_dilution)
-table(simData$number_surviving)
-head(simData)
+simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution)
+
 ```
 
 Check if the simulated data is non monotonic using the *non_monotonic* function. It is expected that mortality of cell cultures increases with higher serum dilutions. Non-monotonic data would show 'accidental' death or survival of cell cultures in between dilution levels, i.e., unexpected cell death in low dilutions or survival in high dilutions. 
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, results='hide'}
 library(dplyr)
 
 non_monotone <- simData %>%
@@ -74,7 +77,7 @@ simData %>%
 
 Fit the mechanistic model to the simulated data. Here we use the Stan's *sampling* algorithm, but the *optimization* algorithm is also available through the *'optimizing_stan'* function.
 
-```{r, warning = FALSE, results = 'hide'}
+```{r, warning=FALSE, results='hide'}
 stan_data = list(N = nrow(simData),
                  nreplicates = rep(nreplicates_per_dilution, nrow(simData)),
                  survival = simData$number_surviving,
@@ -93,14 +96,11 @@ phis <- apply(rstan::extract(fit, "phi")[[1]], 2, mean)
 phiEstimated <- data.frame('phi' = phis, 'dataset' = rep('Estimated', length(phis)))
 
 # phi values in the simulated data:
-head(simData)
 phiVals <- (simData[!duplicated(simData[,c('draw')]),'phiValue'])$phiValue
 phiSimulated <- data.frame('phi' = phiVals, 'dataset' = rep('Simulated', length(phiVals)))
 
 # Compare phi values - in the simulated ('actual') data and estimated by the model:
 phiDF <- rbind(phiEstimated, phiSimulated)
-head(phiDF)
-
 ggplot(phiDF, aes(phi, fill = dataset)) +
   geom_density(alpha = 0.3) +
   scale_fill_brewer(palette = 'Set1') +
@@ -121,7 +121,6 @@ prob_high <- apply(rstan::extract(fit, "prob")[[1]], 2, function(x) quantile(x, 
 
 ```{r, message=FALSE, warning=FALSE}
 delayedAssign('df', reedmuenchTitrations)
-head(df)
 df <- df %>%
   rename_all(tolower) %>%
   mutate(sample = 1,
@@ -154,7 +153,7 @@ stan_data <- list(
 
 Model fitting using Stan's sampling algorithm.
 
-```{r, warning = FALSE, results = 'hide'}
+```{r, warning=FALSE, results='hide'}
 fit <- sampling_rm(standata=stan_data, iter=2000, chains=4, init = 'random')
 
 ```
@@ -187,7 +186,7 @@ params <- rstan::extract(fit, c("phi", "a", "b")) %>% as.data.frame()
 
 ```
 
-```{r, out.width='80%', out.height='60%', warning=FALSE, dpi=300}
+```{r, out.width='80%', out.height='60%', warning=FALSE, message=FALSE, dpi=300}
 library(bayesplot)
 library(hexbin)
 
@@ -200,11 +199,9 @@ mcmc_pairs(fit, pars = c("phi", "a", "b"), off_diag_fun = "hex")
 
 In the following example we show the use of the package with actual serum neutralization data. The data is similar to the simulated data above, i.e., 2-fold serum dilutions of 1:8 to 1:1024, where each dilution was tested in duplicate.
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, results='hide'}
 delayedAssign('df', evTitrations)
-head(df)
 df <- df %>% mutate(sample=as.numeric(as.factor(sampleID)))
-head(df)
 table(df$outcome)
 non_monotone <- df %>%
   group_by(sample) %>%
@@ -214,7 +211,7 @@ table(non_monotone$is_non_monotone)
 
 ```
 
-Visualise the data to show the number or proportion of replicates that have surviving cells (Y axis) per dilution::
+Visualize the data to show the number or proportion of replicates that have surviving cells (Y axis) per dilution:
 
 ```{r, out.width='80%', out.height='60%', warning=FALSE, dpi=300}
 
@@ -231,7 +228,7 @@ df %>%
 
 Fit model to data using the sampling algorithm:
 
-```{r, warning = FALSE, results = 'hide'}
+```{r, warning=FALSE, results='hide'}
 stan_data <- list(
   N = nrow(df),
   nreplicates=rep(2, nrow(df)),
@@ -246,11 +243,10 @@ fit <- sampling_stan(standata = stan_data, chains=4, iter = 1000, init = 'random
 
 ```
 
-Examine the model estimates - $\phi$ and ED50 - and compare with antibody titer calculated with the Reed and Muench method.
-Note - ED50 is a model generated quantity of the endpoint dilution at 50\% mortality, calculated as:
+Examine the model estimates - $\phi$ and ED50 - and compare with antibody titer calculated with the Reed and Muench method. ED50 is a model generated quantity of the endpoint dilution at 50\% mortality, calculated as:
 $$ed50 = \phi * \exp(-a) ^ {-1 / b}$$
 
-```{r, out.width='60%', out.height='40%', warning=FALSE, dpi=300}
+```{r, figures-side, fig.show='hold', out.width='50%', out.height='70%', warning=FALSE, dpi=300}
 phiEstimated <- apply(rstan::extract(fit, "phi")[[1]], 2, mean)
 ed50Estimated <- apply(rstan::extract(fit, "ed50")[[1]], 2, mean)
 phis_ed50_titers <- df
@@ -267,6 +263,72 @@ plot(log10(phis_ed50_titers$titer), phis_ed50_titers$ed50,
 plot(phis_ed50_titers$phi, phis_ed50_titers$ed50, 
      main="phi vs. ED50", ylab="ED50", xlab="phi", pch=19)
 
+```
+
+<br>
+Extract posterior predictive simulations:
+
+``` {r, results=FALSE}
+survival_sim <- rstan::extract(fit, "survival_sim")[[1]]
+outcome_sim <- apply(survival_sim, 2, function(x) quantile(x, 0.5))
+prob <- apply(rstan::extract(fit, "prob")[[1]], 2, median)
+prob_low <- apply(rstan::extract(fit, "prob")[[1]], 2, function(x) quantile(x, 0.025))
+prob_high <- apply(rstan::extract(fit, "prob")[[1]], 2, function(x) quantile(x, 0.975))
+df <- df %>% 
+  mutate(outcome_sim = outcome_sim, prob = prob, prob_low = prob_low, prob_high = prob_high)
+df_long <- df %>% 
+  select(sampleID, dilutions, outcome, outcome_sim, prob, prob_low, prob_high) %>% 
+  rename(actual = outcome, simulated = outcome_sim) %>% 
+  mutate(fraction = actual / 2)
+
+```
+
+``` {r, results=FALSE, message=FALSE}
+bars <- df_long %>% 
+  group_by(sampleID) %>% 
+  summarise(barcode = paste0(actual, collapse = "")) %>% 
+  ungroup() %>% 
+  pull(barcode) %>% 
+  unique()
+bars_lookup <- df_long %>% 
+  group_by(sampleID) %>% 
+  summarise(barcode = paste0(actual, collapse = ""))
+df_long <- df_long %>% left_join(bars_lookup)
+df_each_code <- df_long %>% 
+  group_by(barcode) %>% 
+  summarise(sampleID = first(sampleID)) %>% 
+  mutate(keep = TRUE)
+df_short <- df_long %>% 
+  left_join(df_each_code) %>% 
+  filter(keep == TRUE)
+
+```
+
+<br>
+Plot the probability of cells surviving per serum dilution point: 
+``` {r, message=FALSE, out.width='80%', out.height='70%', warning=FALSE, dpi=300}
+library(tidyverse)
+tmp <- df_short %>% 
+  group_by(sampleID) %>% 
+  summarise(first_non_total = which(actual < 2)[1]) %>% 
+  mutate(first_non_total = ifelse(is.na(first_non_total), 
+                                max(first_non_total, na.rm = T) + 1, 
+                                first_non_total))
+df_short %>% 
+  left_join(tmp) %>% 
+  mutate(sampleID = as.factor(sampleID)) %>% 
+  mutate(sampleID = fct_reorder(sampleID, first_non_total)) %>%
+  ggplot(aes(x = dilutions, y = prob)) +
+    geom_ribbon(aes(ymin = prob_low, ymax = prob_high), alpha = 0.7, fill = "blue") +
+    geom_point(aes(y = fraction), size = 0.8, alpha = 0.7, colour = "orange") +
+    geom_line(aes(y = fraction), alpha = 0.7, colour = "orange") +
+    scale_color_brewer("Type", palette = "Dark2") +
+    scale_x_log10() +
+    labs(y = "Probability of survival", x = "Dilution") +
+    theme(axis.title = element_text(size=8),
+          axis.text = element_text(size=6),
+          strip.text = element_text(size=6)) +
+    facet_wrap(~sampleID)
 ```
 
 
