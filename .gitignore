@@ -5,4 +5,12 @@
 .DS_Store
 inst/doc
 src/bayesianTiterCalc.so
+<<<<<<< HEAD
+=======
+src/*.o
+src/*.h
+src/*.cpp
+src/*.cc
+src/Makevars*
+>>>>>>> main
 docs
