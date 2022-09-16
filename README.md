@@ -15,19 +15,13 @@ text-align: justify}
 <!-- badges: end -->
 
 bayesianTiterCalc is a Bayesian inference method that calculates a serum
-sample’s antibody concentration, $\phi$, and titer based on data from a
-standard neutralization assay. The method uses a logistic function in a
-statistical model to simulate mortality in cell culture as a function of
-<<<<<<< HEAD
-antibody concentration. <br> Given the limited information per sample
-that’s inherent in the experimental design of neutralization assays
-(number of replicates per dilution and number of dilutions), the
-=======
-antibody concentration ($\phi$). Given the limited information per
+sample’s antibody concentration, $\phi$, and titer based on data
+obtained from a standard neutralization assay. The method uses a
+logistic function as a function of $\phi$ to model the dose-response
+relationship in a mechanistic model. Given the limited information per
 sample that’s inherent in the experimental design of neutralization
 assays (number of replicates per dilution and number of dilutions), the
->>>>>>> main
-advantage of Bayesian inference here is the use of probability
+advantage of Bayesian inference as used here is the use of probability
 distributions to incorporate uncertainty in the outcome.
 
 ## Installation
@@ -42,33 +36,14 @@ devtools::install_github("ekamau/bayesianTiterCalc")
 
 ## Usage
 
-<<<<<<< HEAD
-Example of data simulation: 30 samples tested at two replicates per
-dilution point and with $\phi$ values sampled from a uniform
-distribution between 1.75 and 16.
-
-``` r
-library(bayesianTiterCalc)
-
-ndraws = 30; a = 4.5; b = 1.5; prior_phi <- list(lower = 1.75, upper = 16)
-dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10); nreplicates_per_dilution = 2
-simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution)
-head(simData)
-table(simData$number_surviving)
-```
-
-Plot four simulated samples to visualize the number of replicates per
-dilution with surviving cells:
-=======
 ``` r
 library(bayesianTiterCalc)
 ```
 
-The following example shows the use of the package with serum
-neutralization data that is provided in the package. The data was
-obtained from 2-fold serum dilutions from 1:8 to 1:1024, where each
-dilution was tested in duplicate.
->>>>>>> main
+The following example demonstrates the use of the package with serum
+neutralization data provided in the package. The data was obtained from
+2-fold serum dilutions from 1:8 to 1:1024, where each dilution was
+tested in duplicate.
 
 ``` r
 library(dplyr)
@@ -93,35 +68,26 @@ options(dplyr.summarise.inform = FALSE)
 df %>%
   filter(sample %in% 1:4) %>%
   group_by(sample, dilutions) %>%
-  summarise(outcome=mean(outcome) / 2) %>%
+  summarise(outcome=mean(outcome)) %>%
   ggplot(aes(x=dilutions, y=outcome)) +
     geom_point() +
     scale_x_log10() +
-<<<<<<< HEAD
     ylim(0, 2) +
     labs(x = 'Dilution', y = 'Outcome') +
-    theme(axis.title = element_text(size = 12),
-          axis.text = element_text(size = 10),
-          strip.text = element_text(size = 12)) +
-    facet_wrap(~ .data$draw)
-```
-
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="60%" height="40%" />
-=======
-    theme(axis.title = element_text(size=10),
-          axis.text = element_text(size=8),
-          strip.text = element_text(size=8)) +
+    theme(axis.title = element_text(size=12),
+          axis.text = element_text(size=10),
+          strip.text = element_text(size=10)) +
     facet_wrap(~sample)
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="70%" height="60%" />
->>>>>>> main
 
-Fit the mechanistic model (a modified logistic function) to the data to
-estimate antibody concentration ($\phi$) and the endpoint serum dilution
-at 50% cell culture mortality. <br> Here we use the Stan’s *sampling*
-algorithm, but the *optimization* algorithm is also available through
-the *‘optimizing_stan’* function.
+Fit a statistical model (modified logistic function) written in the Stan
+programming language to the data to estimate $\phi$ and the endpoint
+serum dilution at 50% cell culture mortality (ED50). <br> In this
+example we use the Stan’s *sampling* algorithm, but the *optimization*
+algorithm is also available through the *‘optimizing_stan’* function in
+this package.
 
 ``` r
 stan_data <- list(
@@ -134,12 +100,6 @@ stan_data <- list(
   is_log=1
 )
 
-<<<<<<< HEAD
-table(non_monotone$is_non_monotone)
-#> 
-#>  1 
-#> 30
-=======
 fit <- sampling_stan(standata = stan_data, chains=4, iter = 1000, init = 'random')
 ```
 
@@ -162,7 +122,6 @@ plot(log10(phis_ed50_titers$titer), phis_ed50_titers$ed50,
      main="Titer vs. ED50", ylab="ED50", xlab="log10 Titer", pch=19)
 plot(phis_ed50_titers$phi, phis_ed50_titers$ed50, 
      main="phi vs. ED50", ylab="ED50", xlab="phi", pch=19)
->>>>>>> main
 ```
 
 <img src="man/figures/README-figures-side-1.png" width="50%" height="70%" /><img src="man/figures/README-figures-side-2.png" width="50%" height="70%" /><img src="man/figures/README-figures-side-3.png" width="50%" height="70%" />
@@ -230,31 +189,4 @@ df_short %>%
     facet_wrap(~sampleID)
 ```
 
-<<<<<<< HEAD
-Summarize the model fitted data and plot:
-=======
 <img src="man/figures/README-unnamed-chunk-7-1.png" width="80%" height="70%" />
->>>>>>> main
-
-``` r
-library(ggplot2)
-
-# Compare phi values - in the simulated ('actual') data and those estimated by the model:
-phis <- apply(rstan::extract(fit, "phi")[[1]], 2, mean)
-phiEstimated <- data.frame('phi' = phis, 'dataset' = rep('Estimated', length(phis)))
-head(simData)
-phiVals <- (simData[!duplicated(simData[,c('draw')]),'phiValue'])$phiValue
-phiSimulated <- data.frame('phi' = phiVals, 'dataset' = rep('Simulated', length(phiVals)))
-phiDF <- rbind(phiEstimated, phiSimulated)
-head(phiDF)
-
-ggplot(phiDF, aes(phi, fill = dataset)) +
-  geom_density(alpha = 0.3) +
-  scale_fill_brewer(palette = 'Set1') +
-  labs(x = 'phi', y = '') +
-  theme_bw() +
-  theme(axis.title = element_text(size = 12),
-        axis.text = element_text(size = 10))
-```
-
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="60%" height="30%" />
