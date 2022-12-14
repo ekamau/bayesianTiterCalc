@@ -38,16 +38,13 @@ Each dilution is in four replicates. In this example, it's assumed the $\phi$ va
 
 ```{r, results='hide'}
 ndraws = 30; 
-a = 1.65 
-b = 2.65 
-prior_phi <- list(lower = 0.75, upper = 16)
 dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10); 
 nreplicates_per_dilution = 2
-simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution)
+simData <- sample_dose_response(ndraws, dilutions, nreplicates_per_dilution)
 
 ```
 
-The function *'sample_dose_response'* samples from a uniform distribution \{a, b\} and calls the *'simulate_dose_response'* function.
+The function *'sample_dose_response'* samples \{a\} from a normal distribution with $\mu = -5$ and $\sigma = 1$; \{b\} from a normal distribution with $\mu = 50$ and $\sigma = 1$; and $\phi$ from lognormal distribution with $meanlog = 1$ and $\sigma = 0.1$; and also calls the *'simulate_dose_response'* function from the package.
 
 Check if the simulated data is non monotonic using the *non_monotonic* function. It is expected that mortality of cell cultures increases with higher serum dilutions. Non-monotonic data would show 'accidental' death or survival of cell cultures in between dilution levels, i.e., unexpected cell death in low dilutions or survival in high dilutions. 
 

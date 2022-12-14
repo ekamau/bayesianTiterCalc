@@ -1,9 +1,6 @@
 #' simulate data that has sample dose response
 #'
 #' @param ndraws A numeric value for number of draws or simulations
-#' @param prior_phi A list with numeric values for boundaries of the uniform distribution
-#' @param a Numeric value estimated by model
-#' @param b Numeric value estimated by model
 #' @param dilutions Numeric value for number of dilutions per sample
 #' @param nreplicates_per_dilution Numeric value
 #'
@@ -13,16 +10,22 @@
 #' @importFrom tidyr tibble
 #' @importFrom stats runif
 #' @importFrom dplyr if_else mutate %>% bind_rows
+#' @importFrom stats rlnorm rnorm
 #'
 #' @examples
-#' ndraws = 30; a = 8.5; b = 2.5; prior_phi <- list(lower = 0.75, upper = 16);
-#' dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10); nreplicates_per_dilution = 2
-#' simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions,
-#' nreplicates_per_dilution)
+#' ndraws = 30; dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10); nreplicates_per_dilution = 2
+#' simData <- sample_dose_response(ndraws, dilutions, nreplicates_per_dilution)
 #'
-sample_dose_response <- function(ndraws, prior_phi, a, b, dilutions, nreplicates_per_dilution) {
-  phis <- runif(ndraws, prior_phi$lower, prior_phi$upper)
+sample_dose_response <- function(ndraws, dilutions, nreplicates_per_dilution=2) {
+  prior_a = list(mu = -5, sigma = 1);
+  prior_b <- list(mu=50, sigma=1);
+  prior_phi <- list(mu = 1, sigma = 0.1);
+  as <- rnorm(ndraws, prior_a$mu, prior_a$sigma)
+  bs <- rnorm(ndraws, prior_b$mu, prior_b$sigma)
+  phis <- rlnorm(ndraws, log(prior_phi$mu), prior_phi$sigma)
   for(i in 1:ndraws) {
+    a <- as[i]
+    b <- bs[i]
     phi <- phis[i]
     dose_response <- simulate_dose_response(dilutions, phi, a, b, nreplicates_per_dilution) %>%
       mutate(draw = i, phiValue = phi)

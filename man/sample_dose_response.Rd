@@ -4,23 +4,10 @@
 \alias{sample_dose_response}
 \title{simulate data that has sample dose response}
 \usage{
-sample_dose_response(
-  ndraws,
-  prior_phi,
-  a,
-  b,
-  dilutions,
-  nreplicates_per_dilution
-)
+sample_dose_response(ndraws, dilutions, nreplicates_per_dilution = 2)
 }
 \arguments{
 \item{ndraws}{A numeric value for number of draws or simulations}
-
-\item{prior_phi}{A list with numeric values for boundaries of the uniform distribution}
-
-\item{a}{Numeric value estimated by model}
-
-\item{b}{Numeric value estimated by model}
 
 \item{dilutions}{Numeric value for number of dilutions per sample}
 
@@ -33,9 +20,7 @@ A dataframe of simulated data
 simulate data that has sample dose response
 }
 \examples{
-ndraws = 30; a = 8.5; b = 2.5; prior_phi <- list(lower = 0.75, upper = 16);
-dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10); nreplicates_per_dilution = 2
-simData <- sample_dose_response(ndraws, prior_phi, a, b, dilutions,
-nreplicates_per_dilution)
+ndraws = 30; dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10); nreplicates_per_dilution = 2
+simData <- sample_dose_response(ndraws, dilutions, nreplicates_per_dilution)
 
 }

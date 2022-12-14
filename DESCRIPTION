@@ -7,27 +7,27 @@ Description: A statistical  model for summarizing serum titration data to calcul
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2
 Imports: 
     dplyr,
-    ggplot2,
     methods,
     Rcpp (>= 0.12.0),
-    RcppParallel (>= 5.0.1),
     rlang,
     rstan (>= 2.18.1),
-    rstantools (>= 2.2.0),
     stats,
     tidyr,
-    utils,
-    tidyverse,
-    bayesplot,
-    hexbin,
-    scales
+    utils
 Suggests: 
     knitr,
     markdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tidyverse,
+    bayesplot,
+    hexbin,
+    scales,
+    RcppParallel (>= 5.0.1),
+    rstantools (>= 2.2.0),
+    ggplot2
 Config/testthat/edition: 3
 URL: https://github.com/ekamau/bayesianTiterCalc
 BugReports: https://github.com/ekamau/bayesianTiterCalc/issues
