@@ -18,8 +18,8 @@
 #'
 sample_dose_response <- function(ndraws, dilutions, nreplicates_per_dilution=2) {
   prior_a = list(mu = -5, sigma = 1);
-  prior_b <- list(mu=50, sigma=1);
-  prior_phi <- list(mu = 1, sigma = 0.1);
+  prior_b <- list(mu = 50, sigma = 1);
+  prior_phi <- list(mu = 6, sigma = 0.5);
   as <- rnorm(ndraws, prior_a$mu, prior_a$sigma)
   bs <- rnorm(ndraws, prior_b$mu, prior_b$sigma)
   phis <- rlnorm(ndraws, log(prior_phi$mu), prior_phi$sigma)
