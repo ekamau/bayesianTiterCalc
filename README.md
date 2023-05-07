@@ -10,10 +10,10 @@
 <!-- badges: end -->
 
 bayesianTiterCalc is a Bayesian inference method that calculates a serum
-sample’s antibody concentration, $\phi$, and titer based on data from a
-standard virus neutralization assay. The method uses a dose-response
+sample’s antibody concentration, $\phi$, from a
+standard virus neutralization assay data using a mechanistic model. The method uses a dose-response
 relationship in a logistic function to simulate mortality of cell
-monolayers as a function of antibody concentration.
+culture monolayers as a function of antibody concentration.
 
 Given the limited information per sample that’s inherent in the
 experimental design of neutralization assays (number of replicates per
