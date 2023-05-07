@@ -1,62 +1,45 @@
+// each individual phi estimate
+
 functions{
-  real logistic(real a, real b, real concentration){
-    real prob = 1 / (1 + exp(-(a + b * concentration)));
-    return prob;
+  vector logistic(real a, real b, int N_len, vector log_concentration){
+    vector[N_len] denom = 1 + exp(-(a + b * log_concentration));
+    return(1 ./ denom);
   }
 }
 
 data {
+  int N_panels;
+  int phi_panel_index[N_panels];
   int N;
+  int N_sim;
   int nreplicates[N];
   int survival[N];
-  int dilution[N];
+  vector[N] dilution;
+  vector[N_sim] dilution_sim;
   int nsample;
   int sample[N];
-  int is_log;
+  int sample_sim[N_sim];
+  real a;
+  real b;
 }
 
 parameters {
-  real<lower=0> a;
-  real<lower=0> b;
-  real<lower=0> phi[nsample];
+  vector<lower=0>[nsample] phi;
 }
 
 model {
-  for(i in 1:N) {
-    real concentration;
-    if(is_log == 1)
-      concentration = log(phi[sample[i]] / dilution[i]);
-    else
-      concentration = phi[sample[i]] / dilution[i];
-
-    survival[i] ~ binomial(nreplicates[i], logistic(a, b, concentration));
-  }
+  vector[N] concentration = log(phi[sample] ./ dilution);
+  survival ~ binomial_logit(nreplicates, a + b * concentration);
 
   // priors
-  a ~ cauchy(0, 10);
-  b ~ cauchy(0, 10);
-  phi ~ lognormal(log(6), 0.5);
+  phi ~ normal(0, 2000);
 }
 
 generated quantities{
-  vector[N] survival_sim;
-  vector[N] prob;
-  real<lower=0> ed50[nsample];
-
-  for(i in 1:N){
-    real concentration;
-    if(is_log == 1)
-      concentration = log(phi[sample[i]] / dilution[i]);
-    else
-      concentration = phi[sample[i]] / dilution[i];
-
-    prob[i] = logistic(a, b, concentration);
-    survival_sim[i] = binomial_rng(nreplicates[i], prob[i]);
-
+  vector[N_sim] prob;
+  {
+    vector[N_panels] phi_sim = phi[phi_panel_index];
+    vector[N_sim] concentration1 = log(phi_sim[sample_sim] ./ dilution_sim);
+    prob = logistic(a, b, N_sim, concentration1);
   }
-
-  for(i in 1:nsample){
-    ed50[i] = phi[i] * exp(-a)^(-1.0 / b);
-  }
-
 }
