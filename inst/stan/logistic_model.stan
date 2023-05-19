@@ -63,7 +63,9 @@ model {
 generated quantities{
   vector[is_include_ppc ? N : 0] prob;
   {
-    vector[N] concentration = log(phi[sample] ./ dilution);
-    prob = logistic(a, b, N, concentration);
+    if(is_include_ppc) {
+      vector[N] concentration = log(phi[sample] ./ dilution);
+      prob = logistic(a, b, N, concentration);
+    }
   }
 }

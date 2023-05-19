@@ -31,6 +31,7 @@ prepare_stan_data <- function(
     stan_data$b_fixed <- as.array(b)
   }
 
+  stan_data$is_include_ppc <- 0
   if(include_ppc)
     stan_data$is_include_ppc <- 1
 
@@ -49,11 +50,6 @@ multiple_optimisations <- function(model, data, max_tries, ...) {
 
   is_converged <- FALSE
   tries <- 0
-  print("hello")
-  print(data$is_a_known)
-  print(data$a_fixed)
-  data$a_fixed <- as.array(1)
-  data$b_fixed <- as.array(1)
   while(!is_converged & tries <= max_tries) {
 
     opt <- rstan::optimizing(model, data = data, as_vector = FALSE)
