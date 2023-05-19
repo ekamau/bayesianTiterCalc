@@ -4,7 +4,7 @@
 \alias{simulate_dose_response}
 \title{simulation function}
 \usage{
-simulate_dose_response(dilutions, phi, a, b, nreplicates)
+simulate_dose_response(dilutions, phi, a, b, nreplicates, is_log = FALSE)
 }
 \arguments{
 \item{dilutions}{Numeric vector {8, 16, 32, 64, 128, 256, 512, 1024}.}
@@ -15,7 +15,9 @@ simulate_dose_response(dilutions, phi, a, b, nreplicates)
 
 \item{b}{Model estimate.}
 
-\item{nreplicates}{Fixed value of 2.}
+\item{nreplicates}{Number of replicates at each dilution (by default value of 2).}
+
+\item{is_log}{Is logistic function on log-concentration scale? (by default False).}
 }
 \value{
 A numeric vector of length 8

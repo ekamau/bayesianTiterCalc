@@ -4,7 +4,7 @@
 \alias{simulate_cell_survival}
 \title{simulation functions}
 \usage{
-simulate_cell_survival(dilution, phi, a, b, nreplicates)
+simulate_cell_survival(dilution, phi, a, b, nreplicates, is_log = FALSE)
 }
 \arguments{
 \item{dilution}{Numeric value of {8, 16, 32, 64, 128, 256, 512, 1024}.}
@@ -15,7 +15,9 @@ simulate_cell_survival(dilution, phi, a, b, nreplicates)
 
 \item{b}{Model estimate.}
 
-\item{nreplicates}{Fixed value of 2.}
+\item{nreplicates}{Number of replicates at each dilution (by default value of 2).}
+
+\item{is_log}{Is logistic function on log-concentration scale? (by default False).}
 }
 \value{
 A numeric value

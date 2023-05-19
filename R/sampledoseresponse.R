@@ -28,7 +28,7 @@ sample_dose_response <- function(ndraws, dilutions, nreplicates_per_dilution=2) 
     b <- bs[i]
     phi <- phis[i]
     dose_response <- simulate_dose_response(dilutions, phi, a, b, nreplicates_per_dilution) %>%
-      mutate(draw = i, phiValue = phi)
+      mutate(id = i, phiValue = phi)
 
     if(i == 1)
       big_df <- dose_response
