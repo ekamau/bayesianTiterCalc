@@ -19,8 +19,12 @@
 #' simulate_dose_response(dilutions, phi, a, b, nreplicates)
 #'
 simulate_dose_response <- function(dilutions, phi, a, b, nreplicates, is_log=FALSE) {
+
   survivals <- vector(length = length(dilutions))
   for(i in seq_along(survivals))
     survivals[i] <- simulate_cell_survival(dilutions[i], phi, a, b, nreplicates, is_log)
-  tibble(dilution = dilutions, number_surviving = survivals, number_replicates = nreplicates)
+
+  tibble(dilution = dilutions,
+         number_surviving = survivals,
+         number_replicates = nreplicates)
 }

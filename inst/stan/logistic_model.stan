@@ -1,4 +1,3 @@
-// each individual phi estimate
 
 functions{
   vector logistic(real a, real b, int N_len, vector log_concentration){
@@ -24,7 +23,12 @@ data {
   real<lower=0> sigma_b;
   real mu_phi;
   real<lower=0> sigma_phi;
+
+  // PPC related
   int is_include_ppc;
+  int N_sim;
+  int sample_sim[N_sim];
+  vector[N_sim] dilution_sim;
 }
 
 parameters {
@@ -61,11 +65,11 @@ model {
 }
 
 generated quantities{
-  vector[is_include_ppc ? N : 0] prob;
+  vector[is_include_ppc ? N_sim : 0] prob;
   {
     if(is_include_ppc) {
-      vector[N] concentration = log(phi[sample] ./ dilution);
-      prob = logistic(a, b, N, concentration);
+      vector[N_sim] concentration = log(phi[sample_sim] ./ dilution_sim);
+      prob = logistic(a, b, N_sim, concentration);
     }
   }
 }

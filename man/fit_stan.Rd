@@ -14,6 +14,7 @@ fit_stan(
   b = NULL,
   include_ppc = FALSE,
   n_optimisations = 5,
+  ndilutions_per_id = 20,
   ...
 )
 }
@@ -34,7 +35,9 @@ fit_stan(
 
 \item{include_ppc}{A Boolean (default is FALSE) indicating whether to include posterior predictive simulations.}
 
-\item{n_optimisations}{Number of optimisations to perform (note optimisation is also performed as a precusor step to sampling). By default this is set to 5.}
+\item{n_optimisations}{Number of optimisations to perform (note optimisation is also performed as a precursor step to sampling). By default this is set to 5.}
+
+\item{ndilutions_per_id}{Number of dilutions to sample prob(survive) at for each sample (only relevant if inc_ppc is TRUE). By default this is set to 20.}
 
 \item{...}{Arguments passed to 'rstan::sampling' or 'rstan::optimizing' e.g., iter, chains.}
 }

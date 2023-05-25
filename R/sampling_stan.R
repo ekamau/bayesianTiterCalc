@@ -2,7 +2,8 @@ prepare_stan_data <- function(
     data,
     prior_a, prior_b, prior_phi,
     a, b,
-    include_ppc) {
+    include_ppc,
+    ndilutions_per_id) {
 
   nsample <- dplyr::n_distinct(data$id)
   if(max(data$id) != nsample)
@@ -32,8 +33,22 @@ prepare_stan_data <- function(
   }
 
   stan_data$is_include_ppc <- 0
-  if(include_ppc)
+  stan_data$N_sim <- 1
+  stan_data$sample_sim <- as.array(c(1))
+  stan_data$dilution_sim <- as.array(c(1))
+  if(include_ppc) {
+
     stan_data$is_include_ppc <- 1
+    dilution1 <- 10^seq(log10(min(data$dilution)) - 0.5,
+                        log10(max(data$dilution)) + 0.5,
+                        length.out = ndilutions_per_id)
+    dilution_sim <- rep(dilution1, dplyr::n_distinct(data$id))
+    sample_sim <- unlist(purrr::map(seq(1, dplyr::n_distinct(data$id)),
+                         ~rep(., ndilutions_per_id)))
+    stan_data$N_sim <- length(sample_sim)
+    stan_data$sample_sim <- sample_sim
+    stan_data$dilution_sim <- dilution_sim
+  }
 
   stan_data$mu_a = prior_a$mu
   stan_data$sigma_a = prior_a$sigma
@@ -102,7 +117,8 @@ initialisation_function <- function(opt, a, b) {
 #' @param a Fixed value for a if not estimated (by default NULL).
 #' @param b Fixed value for b if not estimated (by default NULL).
 #' @param include_ppc A Boolean (default is FALSE) indicating whether to include posterior predictive simulations.
-#' @param n_optimisations Number of optimisations to perform (note optimisation is also performed as a precusor step to sampling). By default this is set to 5.
+#' @param n_optimisations Number of optimisations to perform (note optimisation is also performed as a precursor step to sampling). By default this is set to 5.
+#' @param ndilutions_per_id Number of dilutions to sample prob(survive) at for each sample (only relevant if inc_ppc is TRUE). By default this is set to 20.
 #' @param ... Arguments passed to 'rstan::sampling' or 'rstan::optimizing' e.g., iter, chains.
 #'
 #' @return An object of class 'stanfit'.
@@ -122,13 +138,15 @@ fit_stan <- function(
     a=NULL, b=NULL,
     include_ppc=FALSE,
     n_optimisations=5,
+    ndilutions_per_id=20,
     ...) {
 
   stan_data <- prepare_stan_data(
     data,
     prior_a, prior_b, prior_phi,
     a, b,
-    include_ppc
+    include_ppc,
+    ndilutions_per_id
   )
 
   model <- stanmodels$logistic_model
