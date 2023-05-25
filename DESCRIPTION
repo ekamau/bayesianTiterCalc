@@ -1,4 +1,4 @@
-Package: bayesianTiterCalc
+Package: bayesiantiters
 Title: Bayesian calculation of serum neutralization antibody titer
 Version: 0.0.0.9000
 Authors@R: c(

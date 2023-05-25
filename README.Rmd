@@ -20,7 +20,7 @@ library(knitr)
 
 ```
 
-# bayesianTiterCalc
+# bayesiantiters
 
 <!-- badges: start -->
 
@@ -29,7 +29,7 @@ library(knitr)
 
 <!-- badges: end -->
 
-bayesianTiterCalc is a Bayesian inference method that calculates a serum
+bayesiantiters is a Bayesian inference method that calculates a serum
 sample’s antibody concentration, $\phi$, and titer based on data from a
 standard virus neutralization assay. The method uses a dose-response
 relationship in a logistic function to simulate mortality of cell
@@ -44,7 +44,7 @@ in the outcome.
 
 ## Installation
 
-You can install the development version of bayesianTiterCalc from
+You can install the development version of bayesiantiters from
 [GitHub](https://github.com/) with:
 
 ``` r

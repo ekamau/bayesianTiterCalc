@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(bayesianTiterCalc)
+library(bayesiantiters)
 
-test_check("bayesianTiterCalc")
+test_check("bayesiantiters")

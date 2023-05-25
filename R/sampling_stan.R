@@ -127,7 +127,7 @@ initialisation_function <- function(opt, a, b) {
 #' sim_data <- sample_dose_response(ndraws, dilutions, nreplicates_per_dilution)
 #'
 #' # fit model to data not saving posterior predictive simulations
-#' fit <- fit_stan(sim_data, iter = 100, chains = 4, init = 'random')
+#' fit <- fit_stan(sim_data, iter = 100, chains = 4)
 #'
 fit_stan <- function(
     data,

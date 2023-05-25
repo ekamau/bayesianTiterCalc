@@ -1,6 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# bayesianTiterCalc
+# bayesiantiters
 
 <!-- badges: start -->
 
@@ -9,17 +9,11 @@
 
 <!-- badges: end -->
 
-bayesianTiterCalc is a Bayesian inference method that calculates a serum
-sample’s antibody concentration, $\phi$, from
-standard virus neutralization assay data using a mechanistic model. The method uses a dose-response
-relationship in a logistic function to simulate mortality of cell
-culture monolayers as a function of antibody concentration.
+bayesiantiters is a Bayesian inference method that calculates a serum sample’s antibody concentration, $\phi$, from
+standard virus neutralization assay data using a mechanistic model. The method uses a dose-response relationship in a logistic function to simulate mortality of cell culture monolayers as a function of antibody concentration.
 
 Given the limited information per sample that’s inherent in the
-experimental design of neutralization assays (number of replicates per
-dilution and number of dilutions), the advantage of Bayesian inference
-here is the use of probability distributions to incorporate uncertainty
-in the outcome.
+experimental design of neutralization assays (number of replicates per dilution and number of dilutions), the advantage of Bayesian inference here is the use of probability distributions to incorporate uncertainty in the outcome.
 
 
 ## Installation

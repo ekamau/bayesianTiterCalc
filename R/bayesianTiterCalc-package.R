@@ -1,11 +1,11 @@
-#' The 'bayesianTiterCalc' package.
+#' The 'bayesiantiters' package.
 #'
 #' @description Bayesian calculation of serum neutralization titer.
 #'
 #' @docType package
-#' @name bayesianTiterCalc-package
-#' @aliases bayesianTiterCalc
-#' @useDynLib bayesianTiterCalc, .registration = TRUE
+#' @name bayesiantiters-package
+#' @aliases bayesiantiters
+#' @useDynLib bayesiantiters, .registration = TRUE
 #' @import methods
 #' @import Rcpp
 #' @importFrom rstan sampling optimizing
