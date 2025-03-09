@@ -23,6 +23,6 @@ You can install the development version of bayesianTiterCalc from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("ekamau/bayesianTiterCalc")
+devtools::install_github("ekamau/bayesiantiters")
 ```
 
