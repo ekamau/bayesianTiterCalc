@@ -2,7 +2,7 @@
 #'
 #' @param ndraws A numeric value for number of draws or simulations
 #' @param dilutions Numeric value for number of dilutions per sample
-#' @param nreplicates_per_dilution Numeric value
+#' @param nreplicates_per_dilution Numeric value for number of replicates per dilution
 #'
 #' @return A dataframe of simulated data
 #' @export

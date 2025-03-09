@@ -20,16 +20,20 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 This vignette presents the different ways to use the functions in the *bayesiantiters* package to summarize virus neutralization assay data to calculate antibody titer (i.e., 50% endpoint of neutralization, (ED50)) and estimate antibody concentration, $\phi$, in a serum sample.
-We suppose that for each original (i.e. undiluted) serum, there is a true concentration of antibodies, $\phi$ > 0, and there exists a dose-response curve which indicates how cells/cell cultures die as a function of antibody concentration. As the original serum is diluted further, there is a lower probability that the cells will survive.
-We use a modified logistic function to model the dose-response relationship in a mechanistic model:
+We suppose that for each original (i.e. undiluted) serum, there is a true concentration of antibodies, $\phi$ > 0, and there exists a dose-response curve which indicates how monolayer cells/cell cultures die as a function of antibody concentration. As the original serum is diluted further, there is a lower probability that the cells will survive.
+We use a modified logistic function to model this biological mechanism as a dose-response relationship in a mechanistic model:
 $$\mu(x) = \frac{1}{1 + \exp(-(a + bx))}$$ 
 where $0 ≤ \mu(x) ≤ 1$ indicates the probability of cell survival as a function of the antibody concentration in the serum sample, x, and $a$ and $b$ > 0 affect the position and slope of the curve. In the limit x $\rightarrow$ $\infty$, the probability that the cell survives, $\mu$(x) $\rightarrow$ 1.
 
-Here, we present examples using two datasets: (i) simulated data, (ii) actual data from a neutralization assay.
+Here, we present examples using two datasets: (i) simulated titrated data, (ii) actual titration data from a neutralization assay.
 
 ```{r setup}
 library(bayesiantiters)
 ```
 
 ## Simulate serum neutralization data
+```{r}
+ndraws = 20; dilutions <- 2^c(3, 4, 5, 6, 7, 8, 9, 10); nreplicates_per_dilution = 2
+sim_df <- sample_dose_response(ndraws, dilutions, nreplicates_per_dilution);
 
+```

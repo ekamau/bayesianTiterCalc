@@ -1,9 +1,5 @@
 prepare_stan_data <- function(
-    data,
-    prior_a, prior_b, prior_phi,
-    a, b,
-    include_ppc,
-    ndilutions_per_id) {
+    data, prior_a, prior_b, prior_phi, a, b, include_ppc, ndilutions_per_id) {
 
   nsample <- dplyr::n_distinct(data$id)
   if(max(data$id) != nsample)
@@ -96,14 +92,10 @@ initialisation_function <- function(opt, a, b) {
 #' Fit a Stan model to the simulated data
 #'
 #' This fits a model of the form:
-#'
 #' number_surviving ~ binomial(n_replicates, theta(dilution))
-#'
 #' where theta(dilution) is a probability of surviving which depends on the dilution.
 #' The functional form of this is:
-#'
 #' theta(dilution) = 1 / (1 + exp(a + b * log(phi / dilution)))
-#'
 #' where a, b and phi are parameters. a and b can either be estimated or specified
 #' a priori; phi is always estimated.
 #'
